@@ -1,0 +1,15 @@
+setnodes 8
+addedge 0 1 1
+addedge 0 3 1
+addedge 1 2 1
+addedge 1 5 1
+addedge 0 4 1
+addedge 2 3 1
+addedge 2 6 1
+addedge 4 7 1
+addedge 4 5 1
+addedge 5 6 1
+addedge 6 7 1
+addedge 3 7 1
+setelectrode 0 3
+solve
