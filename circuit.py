@@ -51,10 +51,11 @@ class Circuit:
         ukn = [node.potential for node in self.nodes]
 
         for i in range(len(self.nodes)):
-            for j in range(len(self.nodes)):
+            for j in range(i + 1, len(self.nodes)):
                 if (i, j) in self.edges and self.edges[(i, j)].isConductor:
                     self.edges[(i, j)].current = sp.symbols(f"I_{i}_{j}")
-                    ukn.append(self.edges[(i, j)].current)
+                    self.edges[(j, i)].current = -sp.symbols(f"I_{i}_{j}")
+                    ukn.append(sp.symbols(f"I_{i}_{j}"))
                     equations.append(sp.Eq(self.nodes[i].potential, self.nodes[j].potential))
 
         equations.append(sp.Eq(self.nodes[self.positive[0]].potential, self.positive[1]))
@@ -71,6 +72,8 @@ class Circuit:
                 ISum += self.edges[(i, j)].current
 
             equations.append(sp.Eq(ISum, 0))
+
+        print(equations, ukn)
 
         solveResult = sp.solve(equations, ukn, dict = True)
         if solveResult == []:
